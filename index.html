@@ -52,14 +52,14 @@
         }
 
         /* ============================================================
-           3. LAYOUT
+           3. LAYOUT — centralizado com largura máxima
         ============================================================ */
         .main-container { position: relative; }
         .dashboard-container {
             width: 100%;
-            max-width: 100%;
-            padding: 0 40px;
-            margin: 0 auto;
+            max-width: 1200px;      /* largura máxima */
+            padding: 0 24px;
+            margin: 0 auto;         /* centralizado */
         }
 
         /* ============================================================
@@ -148,7 +148,7 @@
 
         .table-fixed-header-container {
             position: relative;
-            overflow: auto;
+            overflow-x: auto;
             width: 100%;
         }
 
@@ -157,33 +157,45 @@
             font-size: 12px;
             border-collapse: collapse;
             margin: 0;
+            table-layout: fixed;   /* colunas respeitam larguras definidas */
         }
 
         .table thead th {
             background-color: #54697b !important;
             color: white !important;
             font-weight: 600;
-            font-size: 12px;
-            padding: 12px 16px;
+            font-size: 11px;
+            padding: 11px 12px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            border: 1px solid #d6dee6;
+            border: 1px solid #4a5e6d;
             white-space: nowrap;
             position: sticky;
             top: 0;
             z-index: 10;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .table thead th:first-child { border-top-left-radius: 0; }
-        .table thead th:last-child  { border-top-right-radius: 0; }
 
         .table tbody tr { background-color: #ffffff; }
         .table tbody td {
-            padding: 13px 16px;
+            padding: 11px 12px;
             vertical-align: middle;
             border-bottom: 1px solid #f1f1f1;
             font-size: 12px;
+            text-align: center;
+            overflow: hidden;
         }
         .table tbody tr:hover { background-color: rgba(41,67,90,0.04); }
+
+        /* Larguras das colunas — compactas e proporcionais */
+        .col-ano       { width: 90px;  }
+        .col-processo  { width: 110px; }
+        .col-situacao  { width: 160px; }
+        .col-parecer   { width: auto;  }
+        .col-almg      { width: auto;  }
+        .col-cge       { width: auto;  }
 
         /* Coluna Ano */
         .ano-badge {
@@ -191,10 +203,11 @@
             background: #e8edf3;
             color: var(--primary-dark);
             font-weight: 700;
-            font-size: 13px;
-            padding: 4px 12px;
+            font-size: 12px;
+            padding: 3px 10px;
             border-radius: 20px;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         /* Links de documentos */
@@ -202,11 +215,11 @@
             color: #006a82;
             text-decoration: none;
             font-weight: 500;
-            font-size: 12px;
+            font-size: 11px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
+            gap: 4px;
+            padding: 4px 9px;
             border-radius: 6px;
             border: 1px solid #c5dfe6;
             background: #f0f8fa;
@@ -219,7 +232,7 @@
             border-color: var(--primary-dark);
         }
         .document-link .material-icons {
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .nao-disponivel {
@@ -231,7 +244,7 @@
         /* Tags de situação */
         .tag-situacao {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 3px 9px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
@@ -340,6 +353,14 @@
             border-color: #1a3a5c;
         }
 
+        /* Loading state */
+        .loading-row td {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
         /* ============================================================
            8. NOTA DE RODAPÉ
         ============================================================ */
@@ -358,10 +379,10 @@
         }
         @media (max-width: 768px) {
             .dashboard-container { padding: 0 10px !important; }
-            .table thead th, .table tbody td { padding: 10px 10px; font-size: 11px; }
+            .table thead th, .table tbody td { padding: 9px 8px; font-size: 11px; }
             .description-area { padding: 15px; }
-            .document-link { font-size: 11px; padding: 4px 8px; }
-            .ano-badge { font-size: 12px; }
+            .document-link { font-size: 10px; padding: 3px 7px; }
+            .ano-badge { font-size: 11px; }
             .toolbar { flex-direction: column; align-items: flex-start; }
             .toolbar-left, .toolbar-right { width: 100%; flex-wrap: wrap; }
         }
@@ -438,21 +459,25 @@
                 <table class="table" id="tabelaJulgamento">
                     <thead>
                         <tr>
-                            <th style="width:160px;">Ano</th>
-                            <th style="width:130px;">Processo</th>
-                            <th style="width:180px;">Situação</th>
-                            <th>Parecer Prévio TCEMG</th>
-                            <th>Julgamento ALMG</th>
-                            <th>Rel. de Controle Interno(CGE)</th>
+                            <th class="col-ano">Ano</th>
+                            <th class="col-processo">Processo</th>
+                            <th class="col-situacao">Situação</th>
+                            <th class="col-parecer">Parecer Prévio TCEMG</th>
+                            <th class="col-almg">Julgamento ALMG</th>
+                            <th class="col-cge">Rel. Controle Interno (CGE)</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Preenchido via JS -->
+                    <tbody id="tabelaBody">
+                        <tr class="loading-row">
+                            <td colspan="6">
+                                <i class="material-icons" style="animation: spin 1s linear infinite; display:inline-block;">refresh</i>
+                                Carregando dados...
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
 
         <!-- VOLTAR AO TOPO -->
         <div style="display:flex;justify-content:flex-end;margin-top:16px;">
@@ -471,13 +496,81 @@
     <span style="cursor:pointer;margin-left:10px;font-size:14px;" onclick="document.getElementById('toastSucesso').style.display='none'">✖</span>
 </div>
 
+<style>
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     // ============================================================
-    // DADOS DO JULGAMENTO DAS CONTAS
+    // DADOS — carregados dinamicamente do CSV no GitHub
     // ============================================================
-    const dadosJulgamento = [
+    const CSV_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_julgamento_contas_anuais_governador/main/dataset/data/julgamento_contas_governador.csv';
+
+    let dadosJulgamento = [];
+
+    // Nomes legíveis para os links das colunas de documentos
+    const TEXTOS = {
+        parecer: ano => `Parecer Prévio TCEMG ${ano}`,
+        almg:    ano => `Julgamento ALMG ${ano}`,
+        cge:     ano => `Relatório de Controle Interno ${ano}`,
+        parecerAntigosTexto:  'Pareceres Prévios',
+        almgAntigosTexto:     'Julgamentos ALMG',
+    };
+
+    async function carregarCSV() {
+        try {
+            const resp = await fetch(CSV_URL);
+            if (!resp.ok) throw new Error('Falha ao buscar CSV');
+            const text = await resp.text();
+            dadosJulgamento = parsearCSV(text);
+            renderTabela();
+        } catch(e) {
+            console.error('Erro ao carregar CSV:', e);
+            // Fallback: dados embutidos atualizados com 2025
+            dadosJulgamento = DADOS_FALLBACK;
+            renderTabela();
+        }
+    }
+
+    function parsearCSV(text) {
+        // Remove BOM se presente
+        const clean = text.replace(/^\uFEFF/, '').trim();
+        const linhas = clean.split('\n').filter(l => l.trim());
+        // Primeira linha é cabeçalho
+        const dados = [];
+        for (let i = 1; i < linhas.length; i++) {
+            const cols = linhas[i].split(';').map(c => c.trim());
+            // cols: [ano, numero_processo, situacao, parecer_url, almg_url, cge_url]
+            const ano       = cols[0] || '';
+            const processo  = (cols[1] || '').replace(',0', '').replace('.0', ''); // remove ",0" do número
+            const situacao  = cols[2] || '';
+            const parecerUrl = cols[3] && cols[3] !== '-' && cols[3] !== 'Não avaliado' ? cols[3] : null;
+            const almgUrl    = cols[4] && cols[4] !== '-' && cols[4] !== 'Não avaliado' ? cols[4] : null;
+            const cgeUrl     = cols[5] && cols[5] !== '-' && cols[5] !== 'Não avaliado' ? cols[5] : null;
+
+            const anoLabel = isNaN(parseInt(ano)) ? ano : ano; // mantém como string
+            const isExercicioAnterior = !parseInt(ano);
+
+            dados.push({
+                ano: anoLabel,
+                processo,
+                situacao,
+                parecerTCE:    parecerUrl ? { url: parecerUrl, texto: isExercicioAnterior ? TEXTOS.parecerAntigosTexto : TEXTOS.parecer(ano) } : null,
+                julgamentoALMG: almgUrl   ? { url: almgUrl,   texto: isExercicioAnterior ? TEXTOS.almgAntigosTexto    : TEXTOS.almg(ano)    } : null,
+                relatorioCGE:  cgeUrl     ? { url: cgeUrl,    texto: isExercicioAnterior ? '—'                        : TEXTOS.cge(ano)     } : null,
+            });
+        }
+        return dados;
+    }
+
+    // Fallback com dados completos incluindo 2025
+    const DADOS_FALLBACK = [
+        { ano: "2025", processo: "1210489", situacao: "Em Julgamento",
+          parecerTCE: { url: "https://www.tce.mg.gov.br/pesquisa_processo.asp?cod_processo=1210489", texto: "Parecer Prévio TCEMG 2025" },
+          julgamentoALMG: null,
+          relatorioCGE: { url: "https://cge.mg.gov.br/auditoria-interna-governamental/relatorios-de-auditoria/category/129-relatorio-de-controle-interno-rci?download=1539:relatorio-de-controle-interno-n-1962306-contas-do-governo-exercicio-de-2025", texto: "Relatório de Controle Interno 2025" } },
         { ano: "2024", processo: "1188127", situacao: "Em Julgamento",
           parecerTCE: { url: "https://www.tce.mg.gov.br/pesquisa_processo.asp?cod_processo=1188127", texto: "Parecer Prévio TCEMG 2024" },
           julgamentoALMG: null,
@@ -524,7 +617,7 @@
     // RENDERIZAR TABELA
     // ============================================================
     function renderTabela() {
-        const tbody = document.querySelector('#tabelaJulgamento tbody');
+        const tbody = document.getElementById('tabelaBody');
         if (!tbody) return;
 
         let html = '';
@@ -668,14 +761,14 @@
     }
 
     // ============================================================
-    // DATA DE ATUALIZAÇÃO — último commit GitHub
+    // DATA DE ATUALIZAÇÃO — último commit GitHub (repositório correto)
     // ============================================================
     async function atualizarData() {
         const el = document.getElementById('data-atualizacao-header');
         if (!el) return;
         try {
             const resp = await fetch(
-                'https://api.github.com/repos/transparencia-mg/portal_relatorios_gestao_balanco-geral/commits?path=dataset/data&per_page=1',
+                'https://api.github.com/repos/transparencia-mg/portal_julgamento_contas_anuais_governador/commits?path=dataset/data/julgamento_contas_governador.csv&per_page=1',
                 { headers: { 'Accept': 'application/vnd.github.v3+json' } }
             );
             if (!resp.ok) throw new Error('GitHub API erro ' + resp.status);
@@ -721,7 +814,7 @@
     // INICIALIZAÇÃO
     // ============================================================
     window.addEventListener('load', () => {
-        renderTabela();
+        carregarCSV();   // carrega do GitHub; usa fallback se falhar
         atualizarData();
     });
 </script>
