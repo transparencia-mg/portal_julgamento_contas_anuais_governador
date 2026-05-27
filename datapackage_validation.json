@@ -1,0 +1,205 @@
+{
+  "version": "4.16.6",
+  "time": 0.044,
+  "errors": [],
+  "tasks": [
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "julgamento_contas_governador",
+        "path": "data/julgamento_contas_governador.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "ano",
+              "type": "integer"
+            },
+            {
+              "name": "numero_processo",
+              "type": "string"
+            },
+            {
+              "name": "situacao",
+              "type": "string"
+            },
+            {
+              "name": "parecer_previo_tcemg",
+              "type": "string"
+            },
+            {
+              "name": "julgamento_contas_almg",
+              "type": "string"
+            },
+            {
+              "name": "relatorio_controle_interno_cge",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "0556f10e9fb329efdfd10e57243f5ed1",
+          "bytes": 3186,
+          "fields": 6,
+          "rows": 11
+        }
+      },
+      "time": 0.008,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [
+        {
+          "cell": "exercicio anteriores",
+          "fieldName": "ano",
+          "fieldNumber": 1,
+          "fieldPosition": 1,
+          "cells": [
+            "exercicio anteriores",
+            "",
+            "",
+            "https://www.tce.mg.gov.br/noticia/Detalhe/1111625215",
+            "https://www.almg.gov.br/atividade-parlamentar/leis/legislacao-mineira/?pesquisou=true&aba=pesquisa&q=APROVA+AS+CONTAS+DO+GOVERNADOR+DO+ESTADO+EXERC%C3%8DCIO&grupo=&num=&ano=&dataInicio=&dataFim=&sit=&ordem=2",
+            "-"
+          ],
+          "rowNumber": 11,
+          "rowPosition": 12,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"exercicio anteriores\" in row \"12\" and field \"ano\" at position \"1\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        }
+      ],
+      "stats": {
+        "errors": 1
+      },
+      "valid": false
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "relatorios_anuais_governo",
+        "path": "data/relatorios_anuais_governo.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "ano",
+              "type": "integer"
+            },
+            {
+              "name": "balanco_geral_estado",
+              "type": "string"
+            },
+            {
+              "name": "relatorio_gestao_atividades",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "1ba90f66a445041da29b2b5b167bae00",
+          "bytes": 1997,
+          "fields": 3,
+          "rows": 11
+        }
+      },
+      "time": 0.007,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [
+        {
+          "cell": "exercicios_anteriores",
+          "fieldName": "ano",
+          "fieldNumber": 1,
+          "fieldPosition": 1,
+          "cells": [
+            "exercicios_anteriores",
+            "",
+            "https://www.mg.gov.br/planejamento/documento/mensagem-do-governador-exercicios-anteriores"
+          ],
+          "rowNumber": 11,
+          "rowPosition": 12,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"exercicios_anteriores\" in row \"12\" and field \"ano\" at position \"1\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        }
+      ],
+      "stats": {
+        "errors": 1
+      },
+      "valid": false
+    }
+  ],
+  "stats": {
+    "errors": 2,
+    "tasks": 2
+  },
+  "valid": false
+}
